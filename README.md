@@ -2,7 +2,7 @@
 
 What Makes Your Academic Paper/Report Beautiful! This is a demo/utility script use to render a point cloud, with integrated mitsuba2 python API. Here are some comparisons following (compare visualizations only, these are all nice work):
 
-| <img src="docs/paper1.gif"   style="zoom:48%;" /> | <img src="docs/paper2.png"  style="zoom:67%;" /> |
+| <img src="docs/paper1.gif"   style="zoom:48%;" /> | <img src="docs/paper2.png"  style="zoom:72%;" /> |
 |:-------------------------------------------------:|:------------------------------------------------:|
 
 | <img src="docs/paper3.png" style="zoom:75%;" /> | <img src="docs/paper4.png" style="zoom:62%;" /> |
