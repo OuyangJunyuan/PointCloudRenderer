@@ -42,7 +42,7 @@ than a image file named `output.jpg` can be found in current fold:
 It appears to contain a lot of noise. you can specify a larger sample times to smooth, but it will take more time to render:
 
 ```
-python point_render.py -f chair_pcl.npy -s 256
+python points_renderer.py -f chair_pcl.npy -s 256
 ```
 
 <img src="docs/img2.png" width="320"  />
