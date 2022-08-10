@@ -1,6 +1,6 @@
 # Point Cloud Renderer
 
-What Makes Your Academic Paper/Report Beautiful! This is a demo/utility script use to render a point cloud, with integrated mitsuba2 python API. Here are some comparisons following (compare visualizations only, these are all nice work):
+What Makes Your Academic Paper/Report Beautiful! This is a demo/utility script use to render a point cloud, with integrated mitsuba2 Python API. Here are some comparisons following (compare visualizations only, these are all nice work):
 
 | <img src="docs/paper1.gif"   style="zoom:48%;" /> | <img src="docs/paper2.png"  style="zoom:72%;" /> |
 |:-------------------------------------------------:|:------------------------------------------------:|
@@ -17,29 +17,27 @@ Tested version:
 * Misuba >= 2.0.0
 * Python 3.7
 
-python dependency:
+Python dependency:
 
 * argparse
 * numpy
 * pythonlib
 * matplotlib
 
-Please follow [this guid](https://mitsuba2.readthedocs.io/en/latest/src/getting_started/compiling.html#linux) to install `misuba` and make sure it is installed before further step.
-
-
+Please follow [this guid](https://mitsuba2.readthedocs.io/en/latest/src/getting_started/compiling.html#linux) to install `misuba` and make sure it is installed before the next step.
 
 # Quick Demo
 
 ```bash
 source YOUR_PATH_TO_MITSUBA2/setpath.sh 
-python point_render.py -f chair_pcl.npy
+python points_renderer.py -f chair_pcl.npy
 ```
 
-than a image file named `output.jpg` can be found in current fold:
+This produces an image file named `output.jpg` that can be found in current directory.
 
 <img src="docs/img1.png"  width="320" />
 
-It appears to contain a lot of noise. you can specify a larger sample times to smooth, but it will take more time to render:
+It appears to contain a lot of noise. You can specify a larger sample times to smooth, but it will take more time to render:
 
 ```
 python points_renderer.py -f chair_pcl.npy -s 256
@@ -55,11 +53,11 @@ All you need to do is provide a point cloud in `.npy` form with shape `[num_pts,
 
 * `-o` to specify the output filename of the render result.
 
-* `-s` to specify the sampling time for sampler
+* `-s` to specify the sampling time for sampler.
 
 * `-x` to specify the `xml` file to be render. This will ignore the `-f` option.
 
-* `-c` to specify the color mapping. The given `.npy` file contain no colors will be colored by the `matplotlib.colors.Colormap` specified by this option, like `'turbo'`.
+* `-c` to specify the color mapping. The given `.npy` file that contains no colors will be colored by the `matplotlib.colors.Colormap` specified by this option, like `'turbo'`.
 
   <img src="docs/img3.png" width="320" />
 
@@ -73,11 +71,11 @@ All you need to do is provide a point cloud in `.npy` form with shape `[num_pts,
 
 ### Preliminary
 
-First of all, you should know something about how to describe a scene in `mitsuba`. In fact, `mitsuba` describe scene use `xml` file. please refere [here](https://mitsuba2.readthedocs.io/en/latest/src/getting_started/file_format.html) for details. Next I assume you already know some basics knowledge about it, i.e., `scene`, `intergrater`, `sampler`, `emitters` and `shape`.
+First of all, you should know something about how to describe a scene in `mitsuba`. In fact, `mitsuba` describes scenes use `xml` file. Please refer to [here](https://mitsuba2.readthedocs.io/en/latest/src/getting_started/file_format.html) for details. Next, I assume you already know some basic knowledge about mitsuba, i.e., `scene`, `intergrater`, `sampler`, `emitters` and `shape`.
 
-Rather than using `xml` file, we use mitsuba's python interface directly to load object from python `dict`.  By this way, a more programmer way, we can easily operate objects rather than click down and up on GUI.
+Rather than using an `xml` file, we use mitsuba's python interface directly to load an object from a Python `dict`. By this, more 'programmer' way, we can easily operate objects rather than click down and up using a GUI.
 
-This only requires a few conversions betwee their, refering to [here](https://mitsuba2.readthedocs.io/en/latest/src/python_interface/parsing_xml.html). Some examples of conversions are listed below:
+This only requires a few conversions. Refer to [here](https://mitsuba2.readthedocs.io/en/latest/src/python_interface/parsing_xml.html) for more information. Some examples of conversions are listed below:
 
 * A tag with "name" can be treated as a field: `<type name="a" value=b` => `"a":type(b)`. e.g:
 
