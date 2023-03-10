@@ -103,8 +103,9 @@ arguments:
 * --view_file: store a list of (camera_x,camera_y,camera_z,target_x,targe_y,targe_z)
 
 # Further development
-The official reference link is given inline the code about scene definition. 
-for more properties of plugins please refer
+1. The official reference link is given inline the code about scene definition. 
+2. Edit the scene: [ref](git@github.com:OuyangJunyuan/PointCloudRenderer.git)
+3. for more properties of plugins please refer
 this [link](https://mitsuba.readthedocs.io/en/stable/src/rendering_tutorials.html).
 
 # Acknowledge
