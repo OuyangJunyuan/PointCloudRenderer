@@ -1,0 +1,12 @@
+variant: scalar_spectral  # specify the variant of mitsuba
+sample: 32 # https://mitsuba2.readthedocs.io/en/latest/generated/plugins.html#samplers
+width: 640
+height: 480
+
+max_depth: -1 # the length of the chain of scattering
+
+light_z: 20
+light_size: 10
+light_power: 6
+
+verbose: False

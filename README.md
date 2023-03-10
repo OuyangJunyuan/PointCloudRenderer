@@ -1,138 +1,114 @@
 # Point Cloud Renderer
 
-What Makes Your Academic Paper/Report Beautiful! This is a demo/utility script use to render a point cloud, with integrated mitsuba2 Python API. Here are some comparisons following (compare visualizations only, these are all nice work):
+<img src="docs/img3.png"   style="zoom:48%;" />
 
-| <img src="docs/paper1.gif"   style="zoom:48%;" /> | <img src="docs/paper2.png"  style="zoom:72%;" /> |
-|:-------------------------------------------------:|:------------------------------------------------:|
-
-| <img src="docs/paper3.png" style="zoom:75%;" /> | <img src="docs/paper4.png" style="zoom:62%;" /> |
-|:-----------------------------------------------:|:-----------------------------------------------:|
-
-
+# Update
+* 2023-03-10: 
+  * Currently, it is compatible with mitsuba3. 
+  * Support GIF recording for moving views or points. 
 
 # Preparation
 
-Tested version:
+`pip install -r requirements.txt`
+ 
 
-* Misuba >= 2.0.0
-* Python 3.7
 
-Python dependency:
+## Preliminary
 
-* argparse
-* numpy
-* pythonlib
-* matplotlib
+* point cloud format： the extension is `npy` (saved by numpy ), storing a list of [x,y,z,...]. 
+* coordinate definition: 
+  * left: x
+  * up:z
+  * screen facing out: y
 
-Please follow [this guid](https://mitsuba2.readthedocs.io/en/latest/src/getting_started/compiling.html#linux) to install `misuba` and make sure it is installed before the next step.
+[//]: # (漫反射)
 
-# Quick Demo
+[//]: # (<bsdf type="diffuse" id="red">)
 
-```bash
-source YOUR_PATH_TO_MITSUBA2/setpath.sh 
-python points_renderer.py -f chair_pcl.npy
+[//]: # (<rgb name="reflectance" value="0.570068, 0.0430135, 0.0443706"/>)
+
+[//]: # (</bsdf>)
+
+[//]: # (透明)
+
+[//]: # (<bsdf type="dielectric" id="glass"/>)
+
+[//]: # (反光)
+
+[//]: # (<bsdf type="conductor" id="mirror"/>)
+## single image rendering
+<img src="workspace/demo/results/car_single.jpg"  height="180" />
+
+```shell
+python scripts/once.py \
+-f workspace/demo/car.npy \             
+-o ./workspace/demo/results/car_single \ 
+--format xyzi \   
+--color_by i --color_normalize \
+--pose 0 0 0 0 0 -180
+--preview 
+```
+arguments:
+* -f: path to input point cloud
+* -o: path to output image 
+* --format: the format of the given point cloud, e.g., xyz/xyzi/xyzrgbs/...
+* --color_by: which data field is used to render colors when the point cloud file does not provide rgb field for each point.
+* --color_normalize: normalize color_by
+* --pose: the pose [x y z r p y] of the given points (in degrees). 
+* --preview: for quickly rendering. 
+
+besides, you can modify the config file `config.yaml` to adjust the size of images or other parameters of the renderer:
+* sample: sample per pixel, the higher, the better rendering quality.
+
+## a rotating object
+<img src="workspace/demo/results/car_rot_z.gif"  height="180" >
+
+```shell
+python scripts/anim_obj_axis.py \
+-f workspace/demo/car.npy \
+-o ./workspace/demo/results/car_rot_z \
+--pose 0 0 0 0 0 -180 \
+--axis 3 0 360 5 \
+--fps 15
+```
+arguments:
+* -axis: [axis order(x:1,y:2,z:3), begin, end ,interval]
+* -fps: the frames per second for gif animation.
+
+## given pose list
+<img src="workspace/demo/results/car_poses.gif"  height="180" >
+
+```shell
+python scripts/anim_obj.py \
+-f workspace/demo/car.npy \
+-o ./workspace/demo/results/car_rot_z \
+--pose 0 0 0 0 0 -180 \
+--pose_file ./workspace/demo/poses.txt  \
+--fps 15
 ```
 
-This produces an image file named `output.jpg` that can be found in current directory.
+## traveling in scene
+<img src="workspace/demo/results/car_views.gif"  height="180" />
 
-<img src="docs/img1.png"  width="320" />
-
-It appears to contain a lot of noise. You can specify a larger sample times to smooth, but it will take more time to render:
-
+```shell
+python scripts/anim_view.py \
+-f workspace/demo/car.npy \
+-o ./workspace/demo/results/car_views \
+--pose 0 0 0 0 0 -180 \
+--view_file ./workspace/demo/views.txt  \
+--fps 2
 ```
-python points_renderer.py -f chair_pcl.npy -s 256
-```
 
-<img src="docs/img2.png" width="320"  />
+arguments:
+* --view_file: store a list of (camera_x,camera_y,camera_z,target_x,targe_y,targe_z)
 
-# Getting Started
-
-All you need to do is provide a point cloud in `.npy` form with shape `[num_pts,3 coords(+3 colors(+1 size))]`, generated from numpy, and run this script. Here are some tips:
-
-* `-f` to specify the path to your points file.
-
-* `-o` to specify the output filename of the render result.
-
-* `-s` to specify the sampling time for sampler.
-
-* `-x` to specify the `xml` file to be render. This will ignore the `-f` option.
-
-* `-c` to specify the color mapping. The given `.npy` file that contains no colors will be colored by the `matplotlib.colors.Colormap` specified by this option, like `'turbo'`.
-
-  <img src="docs/img3.png" width="320" />
-
-* `-v` to specify a specific mitsuba variant, default to "scalar_spectral".
-
-
-
-
-
-## How to modify this script
-
-### Preliminary
-
-First of all, you should know something about how to describe a scene in `mitsuba`. In fact, `mitsuba` describes scenes use `xml` file. Please refer to [here](https://mitsuba2.readthedocs.io/en/latest/src/getting_started/file_format.html) for details. Next, I assume you already know some basic knowledge about mitsuba, i.e., `scene`, `intergrater`, `sampler`, `emitters` and `shape`.
-
-Rather than using an `xml` file, we use mitsuba's python interface directly to load an object from a Python `dict`. By this, more 'programmer' way, we can easily operate objects rather than click down and up using a GUI.
-
-This only requires a few conversions. Refer to [here](https://mitsuba2.readthedocs.io/en/latest/src/python_interface/parsing_xml.html) for more information. Some examples of conversions are listed below:
-
-* A tag with "name" can be treated as a field: `<type name="a" value=b` => `"a":type(b)`. e.g:
-
-  ```xml
-  <float name="height" value="123"> 
-  <string name="height" value="123"> 
-  <tranform name="to_world"> 
-      <scale value="2, 1, -1" /> 
-      <translate value="-1, 3, 4"/>
-  </transform>
-  <rgb name="radiance" value="100,400,100"/>
-  ```
-
-  =>
-
-  ```python
-  "height": 123
-  "height": "123"
-  "to_world": ScalarTransform4f.translate([-1, 3, 4]) * ScalarTransform4f.scale([2, 2, -1])
-  "radiance": { "type": "rgb","value": [100, 400, 100]}
-  ```
-
-* a tag with "type" is a plugin in mistuba: `<class type="a"> ... </class>` =>`{ "type":"a",...}`. e.g:
-
-  ```xml
-  <shape type="sphere">
-      <float name="radius" value="10"/>
-  </shape>
-  ```
-
-  =>
-
-  ```python
-  {  # this brackets cannot be discarded. since obly a dict contain "type" key is treatde as a plugin.
-      "type" : "sphere",
-  	"radius": 10
-  },
-  ```
-
-for more properties of plugins please refer this [link](https://mitsuba2.readthedocs.io/en/latest/src/plugin_reference/intro.html).
-
-### To Modify
-
-* to add other types of data like `mesh`, please refer function `create_objects`.
-* to move shadow, please refer function `create_ground` or remove it from `objs = {"ground_plane": create_ground(), }`.
-* to adjust the camara view, please refer `camera` in function `create_environment`. 
-* ...
-
-
-
-# Known Problems
-
-* fail to use `gpu` variant for rendering, because a  `GPU out of memory`  error occurred. 
-* At the moment I don't know how to render a animation, maybe only remde frame by frame, since I am also new to `mitsuba`. If you get it, please feel free to let me know.
-
-
+# Further development
+The official reference link is given inline the code about scene definition. 
+for more properties of plugins please refer
+this [link](https://mitsuba.readthedocs.io/en/stable/src/rendering_tutorials.html).
 
 # Acknowledge
 
 This script deeply based on[Mitsuba2PointCloudRenderer](https://github.com/tolgabirdal/Mitsuba2PointCloudRenderer) and [PointFlowRenderer](https://github.com/zekunhao1995/PointFlowRenderer) and is an easy-to-use version.
+
+

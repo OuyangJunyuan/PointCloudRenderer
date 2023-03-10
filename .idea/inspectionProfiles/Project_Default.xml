@@ -1,0 +1,65 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="DuplicatedCode" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <Languages>
+        <language minSize="829" name="Python" />
+      </Languages>
+    </inspection_tool>
+    <inspection_tool class="HtmlUnknownAttribute" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="myValues">
+        <value>
+          <list size="1">
+            <item index="0" class="java.lang.String" itemvalue="height" />
+          </list>
+        </value>
+      </option>
+      <option name="myCustomValuesEnabled" value="true" />
+    </inspection_tool>
+    <inspection_tool class="PyChainedComparisonsInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoreConstantInTheMiddle" value="true" />
+    </inspection_tool>
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <value>
+          <list size="18">
+            <item index="0" class="java.lang.String" itemvalue="pytest-runner" />
+            <item index="1" class="java.lang.String" itemvalue="waymo-open-dataset-tf-2-1-0" />
+            <item index="2" class="java.lang.String" itemvalue="interrogate" />
+            <item index="3" class="java.lang.String" itemvalue="pytest-cov" />
+            <item index="4" class="java.lang.String" itemvalue="isort" />
+            <item index="5" class="java.lang.String" itemvalue="kwarray" />
+            <item index="6" class="java.lang.String" itemvalue="asynctest" />
+            <item index="7" class="java.lang.String" itemvalue="xdoctest" />
+            <item index="8" class="java.lang.String" itemvalue="codecov" />
+            <item index="9" class="java.lang.String" itemvalue="ubelt" />
+            <item index="10" class="java.lang.String" itemvalue="pyyaml" />
+            <item index="11" class="java.lang.String" itemvalue="scipy" />
+            <item index="12" class="java.lang.String" itemvalue="yaml" />
+            <item index="13" class="java.lang.String" itemvalue="prettytable" />
+            <item index="14" class="java.lang.String" itemvalue="tqdm" />
+            <item index="15" class="java.lang.String" itemvalue="numba" />
+            <item index="16" class="java.lang.String" itemvalue="accelerate" />
+            <item index="17" class="java.lang.String" itemvalue="torchvision" />
+          </list>
+        </value>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="easydict.EasyDict.RANGE" />
+          <option value="easydict.EasyDict.*" />
+          <option value="rd3d.runner.runner.Runner.*" />
+          <option value="rd3d.runner.runner.DistRunnerBase.*" />
+          <option value="rd3d.runner.runner.DistRunner.*" />
+          <option value="tools.test.test_class.field.state" />
+          <option value="tools.test.test_dispatch2.dispatch.to" />
+          <option value="rd3d.utils.base.dispatch.IF" />
+          <option value="rd3d.utils.base.dispatch.iff" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="YAMLDuplicatedKeys" enabled="false" level="ERROR" enabled_by_default="false" />
+  </profile>
+</component>
