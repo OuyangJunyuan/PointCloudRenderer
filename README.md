@@ -1,6 +1,6 @@
 # Point Cloud Renderer
 
-<img src="docs/img3.png"   style="zoom:48%;" />
+<img src="workspace/demo/results/car_rot_z.gif"   style="zoom:48%;" />
 
 # Update
 * 2023-03-10: 
